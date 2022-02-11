@@ -1,0 +1,34 @@
+#+title: org-roam-anki
+
+* install
+
+* usage
+
+* features
+- create, update, or delete Anki card based on:
+  - [ ] single paragraph in org file
+  - [ ] all paragraph is org file
+  - [ ] all paragraphs in all org-roam files
+  - [ ] select Anki deck with =:ANKI_DECK:=
+  - [ ] select Anki card type with =:ANKI_CARD_TYPE:=
+- [ ] update Anki card when org file gets saved (hook)
+- ignore sections in org file, or whole files, based on:
+  - [ ] tag =:anki-ignore:=
+  - [ ] filetag =#+FILETAGS: anki-ignore=, or =(setq org-roam-anki-ignore-tags '(journal))=
+  - [ ] path with =(setq org-roam-anki-ignore-directories '("path/to/files"))=
+  - [ ] use property =:ANKI_IGNORE: tree:= to ignore a paragraphs and its childrens
+  - [ ] use property =:ANKI_IGNORE: this:= to ignore only a particular section
+- no changes to the content
+  - [ ] create cloze card by either quoting a region, or selecting it by chars with =:ANKI_CLOZE: "cloze this section" 123-159=
+  - [ ] automatically generate front of the card using =:ANKI_FRONT: org-roam-anki -> features=
+  - [ ] use =:ANKI_BACK_LINES: 1 2 4-6= to select lines of paragraph content, which will be used to create back of Anki card
+  - [ ] use =:ANKI_BACK_CONTENT_TYPE: bullet table src-block image= to select types of content which will be used to create back of Anki card
+  - [ ] use =:ANKI_BACK_IGNORE_LINES: 1 2 4-6= to ignore lines of paragraph content, which will be used to create back of Anki card
+  - [ ] use =:ANKI_BACK_IGNORE_CONTENT_TYPE: comment= to select types of content which will be used to create back of Anki card
+- [?] generate multiple cards from one paragraph
+- [?] automatically generate cards
+  - [ ] use =:ROAM_REF:= to ask: =Recall interesting points from following reference ROAM_REF?=
+  - [ ] use =:ROAM_ALIAS:= to ask: =What are other ways to call XYZ?=
+  - [ ] use random paragraphs from org-roam-dailies to ask questions =How were you feeling?=
+- [?] report
+  - [ ] generate report from Anki session and put it in journal file from org-roam-dailies
