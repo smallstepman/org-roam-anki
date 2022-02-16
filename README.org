@@ -1,7 +1,11 @@
 #+title: org-roam-anki
 
 * install
-
+```bash
+git clone https://github.com/smallstepman/org-roam-anki
+cd org-roam-anki
+cargo install --path . 
+```
 * usage
 
 * features
