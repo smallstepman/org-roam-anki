@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "3.1.0", features = ["derive"] }
+indextree = "4.3.1"
+orgize = "0.9.0"
