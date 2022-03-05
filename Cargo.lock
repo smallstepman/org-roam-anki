@@ -141,7 +141,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "org-roam-anki"
+name = "org_roam_anki"
 version = "0.1.0"
 dependencies = [
  "clap",
