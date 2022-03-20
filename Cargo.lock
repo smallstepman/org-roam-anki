@@ -152,8 +152,7 @@ dependencies = [
 [[package]]
 name = "orgize"
 version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e4998a8f863c00c06e18f83ed3c4de39e01f5a7ee5bddd072f0fb31bacfd7fa"
+source = "git+https://github.com/smallstepman/orgize#ae185d2f65f0f0cd8a3f7220f15714881118dd75"
 dependencies = [
  "bytecount",
  "indexmap",

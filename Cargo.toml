@@ -7,5 +7,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "3.1.0", features = ["derive"] }
-indextree = "4.3.1"
-orgize = "0.9.0"
+indextree = { version = "4.3.1" }
+orgize = {  git = "https://github.com/smallstepman/orgize"  }
+# orgize = {  git = "https://github.com/rust-lang/regex" version = "0.9.0", features = ["indexmap"] }
+# rayon = "1.5.1"
