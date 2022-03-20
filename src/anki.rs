@@ -158,6 +158,6 @@ mod tests {
     async fn basic() {
         let v = spawn_blocking(create_card);
         dbg!(v.await.unwrap().await.unwrap());
-        assert!(false);
+        // assert!(false);
     }
 }
