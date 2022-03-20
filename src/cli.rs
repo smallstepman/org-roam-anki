@@ -6,7 +6,7 @@ pub struct Args {
     #[clap(short, long)]
     pub path: String,
     pub ignore_tags: Vec<String>,
-    pub ignore_directories: Vec<String>,
+    // pub ignore_directories: Vec<String>,
 }
 
 impl Args {

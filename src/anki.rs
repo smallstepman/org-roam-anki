@@ -1,14 +1,14 @@
 #![allow(warnings, dead_code)]
 use reqwest;
-use serde::Deserialize;
-use serde::Serialize;
-// use std::collections::HashMap;
+use serde::{Deserialize, Serialize};
 use std::error::Error;
 
+use crate::parse_org::AnkifiableSection;
+
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-struct AnkiResponse {
-    result: Option<usize>,
-    error: Option<String>,
+pub struct AnkiResponse {
+    pub result: Option<usize>,
+    pub error: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -20,26 +20,26 @@ pub struct AnkiCreateNoteRequest {
 }
 
 impl AnkiCreateNoteRequest {
-    fn new() -> Self {
+    pub fn new(note: Note) -> Self {
         AnkiCreateNoteRequest {
             action: "addNote".to_string(),
             version: 6,
-            params: Params {
-                note: Note {
-                    deck_name: "TestRs".to_string(),
-                    model_name: "Basic".to_string(),
-                    fields: Fields {
-                        front: "test".to_string(),
-                        back: "test".to_string(),
-                    },
-                    options: Options::default(),
-                    tags: vec![],
-                    audio: vec![],
-                    video: vec![],
-                    picture: vec![],
-                },
-            },
+            params: Params { note },
         }
+    }
+    pub async fn create_card(
+        section: &mut AnkifiableSection,
+    ) -> Result<AnkiResponse, Box<dyn Error>> {
+        let data = AnkiCreateNoteRequest::new(section.note.clone());
+        let client = reqwest::Client::new();
+        let resp: AnkiResponse = client
+            .post("http://localhost:8765")
+            .json(&data)
+            .send()
+            .await?
+            .json()
+            .await?;
+        Ok(resp)
     }
 }
 
@@ -49,7 +49,25 @@ pub struct Params {
     pub note: Note,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+impl Default for Note {
+    fn default() -> Self {
+        Note {
+            deck_name: "TestRs".to_string(),
+            model_name: "Basic".to_string(),
+            fields: Fields {
+                front: "test".to_string(),
+                back: "test".to_string(),
+            },
+            options: Options::default(),
+            tags: vec![],
+            audio: vec![],
+            video: vec![],
+            picture: vec![],
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {
     pub deck_name: String,
@@ -134,21 +152,6 @@ pub struct Picture {
     pub fields: Vec<String>,
 }
 
-async fn create_card() -> Result<AnkiResponse, Box<dyn Error>> {
-    let data = AnkiCreateNoteRequest::new();
-    let client = reqwest::Client::new();
-    let resp: AnkiResponse = client
-        .post("http://localhost:8765")
-        .json(&data)
-        .send()
-        .await?
-        .json()
-        .await?;
-    // dbg!("rrr", resp);
-    Ok(resp)
-    // Ok(resp)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -156,8 +159,12 @@ mod tests {
 
     #[tokio::test]
     async fn basic() {
-        let v = spawn_blocking(create_card);
-        dbg!(v.await.unwrap().await.unwrap());
-        // assert!(false);
+        let v = spawn_blocking(|| async {
+            let mut a = AnkifiableSection::default();
+            let r = AnkiCreateNoteRequest::create_card(&mut a).await.unwrap();
+            r.clone()
+        });
+        dbg!(v.await.unwrap().await);
+        assert!(false);
     }
 }
