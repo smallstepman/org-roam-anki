@@ -40,16 +40,14 @@ pub struct AnkifiableSection {
 
 impl Default for AnkifiableSection {
     fn default() -> Self {
-        use indextree::Arena;
-        let arena = &mut Arena::new();
-        let node = arena.new_node(1);
-        let node = arena.get(node).unwrap();
-        let node_id = arena.get_node_id(node).unwrap();
         Self {
-            arena_id: node_id,
-            note: Default::default(),
-            org_id: Default::default(),
-            anki_id: Default::default(),
+            arena_id: {
+                let arena = &mut Arena::new();
+                let node = arena.new_node(0);
+                let node = arena.get(node).unwrap();
+                arena.get_node_id(node).unwrap()
+            },
+            ..Default::default()
         }
     }
 }
